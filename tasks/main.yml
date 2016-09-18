@@ -13,4 +13,4 @@
 
 - name: Configuring slaves
   include: 'configure-slaves.yml'
-  when: postgresql_master
+  when: not postgresql_master
