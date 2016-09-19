@@ -1,5 +1,4 @@
-
-
+[![Ansible Galaxy](https://img.shields.io/badge/role-amnay--mo.postgresql-blue.svg)](https://galaxy.ansible.com/amnay-mo/postgresql/)
 ### README: install PostgreSQL and configure Streaming Replication
 
 Features:
