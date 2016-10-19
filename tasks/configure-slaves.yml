@@ -2,9 +2,11 @@
 
 - name: "Stage 3: stop old postgresql service"
   service: name="{{ postgresql_service_name }}" state=stopped
+  when: postgresql_drop_old_cluster
 
 - name: "Stage 3: remove old postgresql cluster"
   file: path="{{ postgresql_data_dir }}" state=absent
+  when: postgresql_drop_old_cluster
 
 - name: "Stage 3: cluster directory replacement with symlink, check destination directory"
   file:
@@ -35,8 +37,13 @@
     group: "{{ postgresql_admin_user }}"
     mode: 0600
 
+- name: "Stage 3: check cluster directory"
+  stat: path={{ postgresql_data_dir }}
+  register: postgresql_data_stat
+
 - name: "Stage 3: initialize new postgresql cluster"
   command: "sudo -u postgres pg_basebackup -c fast -X stream -h {{ postgresql_streaming_master }} -U {{ postgresql_streaming_user.name }} -D {{ postgresql_data_dir }}"
+  when: postgresql_data_stat.stat.exists == False
 
 - name: "Stage 3: configure pg_hba.conf"
   template:
