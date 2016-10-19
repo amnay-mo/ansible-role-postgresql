@@ -30,9 +30,6 @@
   stat: path={{ postgresql_data_dir }}
   register: postgresql_data_stat
 
-- name: "Debug postgresql_data_stat"
-  debug: var=postgresql_data_stat
-
 - name: "Stage 2: initialize new postgresql cluster"
   become: true
   become_user: "{{ postgresql_admin_user }}"
