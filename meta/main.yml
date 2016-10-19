@@ -1,20 +1,16 @@
 # file: meta/main.yml
 
 galaxy_info:
-  author: "Amnay Mokhtari"
-  description: A role to install and setup PostgreSQL 9.x Streaming Replication on Debian/RedHat/CentOS/Scientific/Oracle Enterprise Linux.
-  license: MIT
+  author: "Alexey Lesovsky"
+  description: A role to install and setup PostgreSQL 9.x Streaming Replication on RedHat/CentOS/Scientific/Oracle Enterprise Linux.
+  license: as-is
   min_ansible_version: 1.4
   version: 1.0
   platforms:
     - name: EL
       versions:
-        - 7
-        - 6
-    - name: Debian
-      versions:
-        - 'wheezy'
-        - 'jessie'
+      - 7
+      - 6
   categories:
    - database
    - database:sql

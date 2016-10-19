@@ -78,14 +78,14 @@
 
 {% for connection in postgresql_pg_hba_default %}
 # {{ connection.comment }}
-{{ connection.type }}	{{ connection.database }}		{{ connection.role }}		{{ connection.address }}		{{ connection.method }}
+{{ connection.type }}	{{ connection.database }}			{{ connection.role }}			{{ connection.address }}		{{ connection.method }}
 {% endfor %}
 
 {% for slave in postgresql_streaming_slaves %}
-host	replication		{{ postgresql_streaming_user.name }}		{{ slave }}/32		{{ postgresql_default_ipv4_auth_method }}
+host	replication		{{ postgresql_streaming_user.name }}			{{ slave }}/32			{{ postgresql_default_ipv4_auth_method }}
 {% endfor %}
 
 # Custom
 {% for connection in postgresql_pg_hba_custom %}
-{{ connection.type }}	{{ connection.database }}		{{ connection.role }}		{{ connection.address }}		{{ connection.method }}
+{{ connection.type }}	{{ connection.database }}			{{ connection.role }}			{{ connection.address }}		{{ connection.method }}
 {% endfor %}
