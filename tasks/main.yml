@@ -1,6 +1,7 @@
 ---
 - name: Installing postgresql
   include: 'install.yml'
+  when: postgresql_install == 'true'
 
 - debug: msg={{ postgresql_data_dir }}
 - name: Configuring the master

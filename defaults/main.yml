@@ -5,7 +5,8 @@ postgresql_conf_dir: "{% if ansible_os_family == 'RedHat' %}/var/lib/postgresql/
 postgresql_exec_dir: "{% if ansible_os_family == 'RedHat' %}/usr/pgsql-{{ postgresql_version }}/bin{% elif ansible_os_family == 'Debian' %}/usr/lib/postgresql/{{ postgresql_version }}/bin{% endif %}"
 
 # Basic settings
-postgresql_version: 9.4
+postgresql_version: 9.5
+postgresql_install: true
 
 # Specify database cluster location in case when /var/lib/pgsql/x.y/data directory should be replaced with symlink.
 postgresql_cluster_symlink_src: ""
