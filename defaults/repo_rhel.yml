@@ -1,0 +1,6 @@
+postgresql_repo_RedHat:
+  - { version: "9.6", repo: "http://yum.postgresql.org/9.6/redhat/rhel-{{ ansible_distribution_major_version }}-x86_64/pgdg-redhat96-9.6-3.noarch.rpm" }
+  - { version: "9.5", repo: "http://yum.postgresql.org/9.5/redhat/rhel-{{ ansible_distribution_major_version }}-x86_64/pgdg-redhat95-9.5-3.noarch.rpm" }
+  - { version: "9.4", repo: "http://yum.postgresql.org/9.4/redhat/rhel-{{ ansible_distribution_major_version }}-x86_64/pgdg-redhat94-9.4-3.noarch.rpm" }
+  - { version: "9.3", repo: "http://yum.postgresql.org/9.3/redhat/rhel-{{ ansible_distribution_major_version }}-x86_64/pgdg-redhat93-9.3-3.noarch.rpm" }
+  - { version: "9.2", repo: "http://yum.postgresql.org/9.2/redhat/rhel-{{ ansible_distribution_major_version }}-x86_64/pgdg-redhat92-9.2-3.noarch.rpm" }

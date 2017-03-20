@@ -1,17 +1,17 @@
 ---
 - name: Installing postgresql
   include: 'install.yml'
-  when: postgresql_install == 'true'
+#  when: postgresql_install == 'true'
 
 - debug: msg={{ postgresql_data_dir }}
 - name: Configuring the master
   include: 'configure-master.yml'
-  when: postgresql_master == 'true'
+  when: postgresql_master == 'true' and postgresql_master is defined
 - include: 'users.yml'
-  when: postgresql_master == 'true'
+  when: postgresql_master == 'true' and postgresql_master is defined
 - include: 'databases.yml'
-  when: postgresql_master == 'true'
+  when: postgresql_master == 'true' and postgresql_master is defined
 
 - name: Configuring slaves
   include: 'configure-slaves.yml'
-  when: postgresql_master == 'false'
+  when: postgresql_master == 'false' and postgresql_master is defined

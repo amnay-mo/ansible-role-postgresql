@@ -1,14 +1,20 @@
 # file: tasks/configure-master.yml -- postgresql pre-start configuration of master server and startup
 
 - name: "Stage 2: stop old postgresql service"
+  become: true
+  become_user: root
   service: name="{{ postgresql_service_name }}" state=stopped
   when: postgresql_drop_old_cluster
 
 - name: "Stage 2: remove old postgresql cluster"
+  become: true
+  become_user: "{{ postgresql_admin_user }}"
   file: path="{{ postgresql_data_dir }}" state=absent
   when: postgresql_drop_old_cluster
 
 - name: "Stage 2: cluster directory replacement with symlink, check destination directory"
+  become: true
+  become_user: root
   file:
     path: "{{ postgresql_cluster_symlink_src }}"
     state: directory
@@ -18,25 +24,32 @@
   when: postgresql_cluster_symlink_src|length > 0
   
 - name: "Stage 2: cluster directory replacement with symlink, create symlink"
+  become: true
+  become_user: "{{ postgresql_admin_user }}"
   file:
     src: "{{ postgresql_cluster_symlink_src }}"
     dest: "{{ postgresql_data_dir }}"
     state: link
     owner: "{{ postgresql_admin_user }}"
     group: "{{ postgresql_admin_user }}"
+    force: yes
   when: postgresql_cluster_symlink_src|length > 0
 
 - name: "Stage 2: check cluster directory"
-  stat: path={{ postgresql_data_dir }}
-  register: postgresql_data_stat
+  become: true
+  become_user: "{{ postgresql_admin_user }}"
+  find: paths={{ postgresql_data_dir }} file_type=directory patterns="*"
+  register: postgresql_data_empty
 
 - name: "Stage 2: initialize new postgresql cluster"
   become: true
   become_user: "{{ postgresql_admin_user }}"
   command: "{{ postgresql_exec_dir }}/initdb -D {{ postgresql_data_dir }}"
-  when: postgresql_data_stat.stat.exists == False
+  when: postgresql_data_empty.matched|int == 0
 
 - name: "Stage 2: configure pg_hba.conf"
+  become: true
+  become_user: "{{ postgresql_admin_user }}"
   template:
     src: pg_hba.conf.j2
     dest: "{{ postgresql_conf_dir }}/pg_hba.conf"
@@ -45,6 +58,8 @@
     mode: 0640
 
 - name: "Stage 2: configure postgresql.conf"
+  become: true
+  become_user: "{{ postgresql_admin_user }}"
   lineinfile:
     dest: "{{ postgresql_conf_dir }}/postgresql.conf"
     state: present
@@ -62,4 +77,6 @@
   when: postgresql_log_directory is defined
 
 - name: "Stage 2: start postgresql service"
+  become: true
+  become_user: root
   service: name="{{ postgresql_service_name }}" state=restarted enabled=yes
