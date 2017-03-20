@@ -1,5 +1,4 @@
 # file: tasks/install.yml -- install postgresql packages
-
 - name: "Stage 1: install PostgreSQL on RedHat/CentOS"
   include: 'install_rhel.yml'
   when: ansible_os_family == 'RedHat'
@@ -9,5 +8,7 @@
   when: ansible_os_family == 'Debian'
 
 - name: 'Stage 1: install Ansible postgresql dependency package'
+  become: yes
+  become_user: root
   package: state='latest' pkg='python-psycopg2'
 
